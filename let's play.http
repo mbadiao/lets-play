@@ -1,0 +1,205 @@
+
+### User API Tests
+
+# Create new user (Success case)
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "secret123"
+}
+
+
+### Create new user (Error - Missing required field)
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+"name": "Jane Doe",
+"email": "jane@example.com"
+}
+
+### Create new user (Error - Invalid email format)
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+"name": "Invalid User",
+"email": "not-an-email",
+"password": "password123"
+}
+
+### Get user by ID
+GET http://localhost:8080/api/v1/users/1
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+### Get user (Error - User not found)
+GET http://localhost:8080/api/v1/users/999
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+### Get all users
+GET http://localhost:8080/api/v1/users
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+### Update user
+PUT http://localhost:8080/api/v1/users/1
+Content-Type: application/json
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+{
+"name": "John Doe Updated",
+"email": "john.updated@example.com",
+"password": "newpassword123"
+}
+
+### Delete user
+DELETE http://localhost:8080/api/v1/users/1
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+
+
+
+
+
+
+
+
+
+
+### Product API Tests
+
+### Create new product (Success case)
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+{
+  "name": "Sample Product",
+  "description": "This is a sample product",
+  "price": 19.99,
+  "stock": 100,
+  "category": "electronics"
+}
+
+
+### Create product (Error - Missing required fields)
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+{
+"name": "Incomplete Product",
+"price": 29.99
+}
+
+### Create product (Error - Invalid price)
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+{
+"name": "Invalid Price Product",
+"description": "Product with negative price",
+"price": -10.99,
+"stock": 50,
+"category": "books"
+}
+
+### Get product by ID
+GET http://localhost:8080/api/v1/products/1
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+### Get product (Error - Product not found)
+GET http://localhost:8080/api/v1/products/999
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+### Get all products
+GET http://localhost:8080/api/v1/products
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+### Get products by category
+GET http://localhost:8080/api/v1/products?category=electronics
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+### Update product
+PUT http://localhost:8080/api/v1/products/1
+Content-Type: application/json
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+{
+"name": "Updated Product",
+"description": "This product has been updated",
+"price": 24.99,
+"stock": 75,
+"category": "electronics"
+}
+
+### Partial update product (PATCH)
+PATCH http://localhost:8080/api/v1/products/1
+Content-Type: application/json
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+{
+"price": 22.99,
+"stock": 50
+}
+
+### Delete product
+DELETE http://localhost:8080/api/v1/products/1
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+### Additional Error Cases
+
+### Authentication error (Invalid credentials)
+GET http://localhost:8080/api/v1/products
+Authorization: Basic aW52YWxpZDppbnZhbGlk
+
+### Missing authentication
+GET http://localhost:8080/api/v1/products
+
+### Invalid content type
+POST http://localhost:8080/api/v1/products
+Content-Type: text/plain
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+This is not JSON content
+
+### Rate limit test (send multiple requests quickly)
+GET http://localhost:8080/api/v1/products
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+###
+
+GET http://localhost:8080/api/v1/products
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+###
+
+GET http://localhost:8080/api/v1/products
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+
+### Invalid endpoint
+GET http://localhost:8080/api/v1/invalid-endpoint
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+### Invalid HTTP method
+PATCH http://localhost:8080/api/v1/users/1
+Content-Type: application/json
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+{
+  "name": "Patch Method"
+}
+
+### Invalid JSON format
+POST http://localhost:8080/api/v1/products
+Content-Type: application/json
+Authorization: Basic am9obkBleGFtcGxlLmNvbTpzZWNyZXQxMjM=
+
+{
+  "name": "Invalid JSON Product",
+  "price": 15.99,
+  "description": "This JSON is missing a closing bracket"
